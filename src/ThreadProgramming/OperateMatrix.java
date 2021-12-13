@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ThreadProgramming;
 
 import java.util.ArrayList;

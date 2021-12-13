@@ -8,7 +8,7 @@ public class MainThread {
 
 	public static void main(String[] args) throws IOException {
 		long startTime = System.nanoTime();
-		String directory = "C:\\Users\\Maximus\\Desktop\\PROGRAMAÇÃO CONCORRENTE\\Matrizes\\";
+		String directory = "C:\\Users\\Maximus\\Desktop\\PROGRAMAÇÃO CONCORRENTE\\MatrixMultiplicationWithThread\\Matrizes";
 		String pathA = directory + "A" + args[0] + "x" + args[0] + ".txt";
 		String pathB = directory + "B" + args[0] + "x" + args[0] + ".txt";
 		String pathC = directory + "C" + args[0] + "x" + args[0] + ".txt";
