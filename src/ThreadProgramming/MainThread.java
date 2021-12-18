@@ -1,5 +1,7 @@
 package ThreadProgramming;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,10 +32,10 @@ public class MainThread {
 
 	public static void main(String[] args) throws IOException {
 		long startTime = System.nanoTime();
-		String directory = "C:\\Users\\Maximus\\Desktop\\PROGRAMAÇÃO CONCORRENTE\\MatrixMultiplicationWithThread\\Matrizes";
+		String directory = "C:\\Users\\Maximus\\Desktop\\PROGRAMAï¿½ï¿½O CONCORRENTE\\MatrixMultiplicationWithThread\\Matrizes";
 		String pathA = directory + "A" + args[0] + "x" + args[0] + ".txt";
 		String pathB = directory + "B" + args[0] + "x" + args[0] + ".txt";
-		String pathC = directory + "C" + args[0] + "x" + args[0] + ".txt";
+		String pathC = directory + "C" + args[0] + "x" + args[0] + "test.txt";
 
 		int dimensao = Integer.parseInt(args[0]);
 	
@@ -56,7 +58,7 @@ public class MainThread {
 		t2.start();
 		t3.start();
 		t4.start();
-		
+//		
 		try {
 			t1.join();
 			t2.join();
@@ -65,34 +67,65 @@ public class MainThread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+//		System.out.println(MatrizC);
 
-//		System.out.print("\nMultiplicação de AxB:");
+//		System.out.print("\nMultiplicaï¿½ï¿½o de AxB:");
 //		MatrixC = OperateMatrix.multiply(MatrixA, MatrixB, dimensao);
 		
-//		OperateMatrix.print(MatrixC, dimensao);
+//		print(dimensao);
 		
-//		MyFileWriter.writeMatrix(pathC, MatrixC, dimensao);
+		writeMatrix(pathC, dimensao);
 		
 		long elapsedTime = System.nanoTime() - startTime;
-		System.out.println("\nTempo de execução em Milisegundos: " + (elapsedTime/1000000));
+		System.out.println("\nTempo de execuï¿½ï¿½o em Milisegundos: " + (elapsedTime/1000000));
 		if((elapsedTime/1000000) >= 1000) {
-			System.out.println("Tempo de execução em Segundos: " + (elapsedTime/1000000000));
+			System.out.println("Tempo de execuï¿½ï¿½o em Segundos: " + (elapsedTime/1000000000));
 		}
 	}
 	
 	public static void multiply(Integer index, List<Integer> MatrizA, List<Integer> MatrizB, int dimensao){
 		int i, j, k, soma;
 		
-		for(i = 0; i < dimensao; i++) {
+		for(i = index; i < dimensao; i+=4) {
+//			System.out.print("Thread: " + index +  " [" + i + "] ");
 			for(j = 0; j < dimensao; j++) {
 				soma = 0;
-				for(k = index; k < dimensao; k += 4) {
+				for(k = 0; k < dimensao; k++) {
 					soma = soma +
 						   MatrizA.get(k+i*dimensao) * 
 						   MatrizB.get(j+k*dimensao);
 				}
-				MatrizC.put(null, soma);
+//				System.out.print(soma + " ");
+				MatrizC.put(j+(i*dimensao), soma);
 			}
+			System.out.println("");
 		}
+	}
+	
+	public static void print(int dimensao) {
+		System.out.println("");
+		System.out.println(dimensao + " " + dimensao);
+		for(int i = 0; i < dimensao; i++) {
+			for(int j = 0; j < dimensao; j++) {
+				System.out.print(MatrizC.get(j+(i*dimensao)) + " ");
+			}
+			System.out.println("");			
+		}
+	}
+	
+	public static void writeMatrix(String path, int dimensao) throws IOException {
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+		String linha = dimensao + " " + dimensao;
+		buffWrite.append(linha + "\n");
+		for(int i = 0; i < dimensao; i++) {
+			for(int j = 0; j < dimensao; j++) {
+				buffWrite.append(MatrizC.get(j+(i*dimensao)) + " ");
+			}
+			buffWrite.append("\n");
+			System.out.print(i);
+		}
+		buffWrite.close();
+
 	}
 }
