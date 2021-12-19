@@ -25,8 +25,6 @@ public class MyFileReader {
 		}
 		
 		scanner.close();
-
-//		OperateMatrix.print(integers, dimensao);
 		
 		return integers;
 	}
