@@ -6,23 +6,23 @@ import java.util.List;
 
 public class MainThread {
 	
-	static Integer[][] MatrizC;
+	static Integer[][] MatrixC;
 
 	static class TestThread extends Thread {
 		private Integer index;
 		private List<Integer> MatrizA;
 		private List<Integer> MatrizB;
-		private int dimensao;
+		private int dimension;
 
-		public TestThread(Integer index, List<Integer> MatrizA, List<Integer> MatrizB, int dimensao) {
+		public TestThread(Integer index, List<Integer> MatrizA, List<Integer> MatrizB, int dimension) {
 			this.index = index;
 			this.MatrizA = MatrizA;
 			this.MatrizB = MatrizB;
-			this.dimensao = dimensao;
+			this.dimension = dimension;
 		}
 		
 		public void run() {
-			multiply(this.index, this.MatrizA, this.MatrizB, this.dimensao, 4);
+			multiply(this.index, this.MatrizA, this.MatrizB, this.dimension, 4);
 		}
 	}
 
@@ -31,31 +31,31 @@ public class MainThread {
 		String directory = "D:\\UFRN\\P8\\Concorrente\\MatrixMultiplicationWithThread\\Matrizes\\";
 		String pathA = directory + "A" + args[0] + "x" + args[0] + ".txt";
 		String pathB = directory + "B" + args[0] + "x" + args[0] + ".txt";
-		String pathC = directory + "C" + args[0] + "x" + args[0] + "test.txt";
+		String pathC = directory + "C" + args[0] + "x" + args[0] + ".txt";
 		
+		int dimension = Integer.parseInt(args[0]);
 		String tipo = args[1];
-		int dimensao = Integer.parseInt(args[0]);
 		
-		MatrizC = new Integer[dimensao][dimensao];
+		MatrixC = new Integer[dimension][dimension];
 	
 		List<Integer> MatrixA = new ArrayList<>();
 		List<Integer> MatrixB = new ArrayList<>();
 
 		System.out.print("Carregando Matriz A...");
-		MatrixA = MyFileReader.read(pathA, dimensao);
+		MatrixA = MyFileReader.read(pathA, dimension);
 
 		System.out.print("\nCarregando Matriz B...");
-		MatrixB = MyFileReader.read(pathB, dimensao);
+		MatrixB = MyFileReader.read(pathB, dimension);
 		
 		if (tipo.equals("S")) {
-			System.out.print("\nCalculando matriz " + dimensao + "x" + dimensao + " com versao serial...");
-			multiply(0, MatrixA, MatrixB, dimensao, 1);
+			System.out.print("\nCalculando matriz " + dimension + "x" + dimension + " com versao serial...");
+			multiply(0, MatrixA, MatrixB, dimension, 1);
 		} else if (tipo.equals("C")) {
-			System.out.print("\nCalculando matriz " + dimensao + "x" + dimensao + " com versao concorrente...");
-			TestThread t1 = new TestThread(0, MatrixA, MatrixB, dimensao);
-			TestThread t2 = new TestThread(1, MatrixA, MatrixB, dimensao);
-			TestThread t3 = new TestThread(2, MatrixA, MatrixB, dimensao);
-			TestThread t4 = new TestThread(3, MatrixA, MatrixB, dimensao);
+			System.out.print("\nCalculando matriz " + dimension + "x" + dimension + " com versao concorrente...");
+			TestThread t1 = new TestThread(0, MatrixA, MatrixB, dimension);
+			TestThread t2 = new TestThread(1, MatrixA, MatrixB, dimension);
+			TestThread t3 = new TestThread(2, MatrixA, MatrixB, dimension);
+			TestThread t4 = new TestThread(3, MatrixA, MatrixB, dimension);
 			
 			t1.start();
 			t2.start();
@@ -72,10 +72,11 @@ public class MainThread {
 			}			
 		}
 		
-		MyFileWriter.writeMatrix(pathC, MatrizC, dimensao);
+		MyFileWriter.writeMatrix(pathC, MatrixC, dimension);
 		
 		long elapsedTime = System.nanoTime() - startTime;
-		System.out.println("\n\nTempo de execução em Milisegundos: " + (elapsedTime/1000000));
+		System.out.println("\n\nTempo de execução em Nanosegundos: " + elapsedTime);
+		System.out.println("Tempo de execução em Milisegundos: " + (elapsedTime/1000000));
 		if((elapsedTime/1000000) >= 1000) {
 			System.out.println("Tempo de execução em Segundos: " + (elapsedTime/1000000000));
 		}
@@ -85,20 +86,20 @@ public class MainThread {
 		Integer index,
 		List<Integer> MatrizA,
 		List<Integer> MatrizB,
-		int dimensao,
+		int dimension,
 		int gap
 	){
 		int i, j, k, soma;
 		
-		for(i = index; i < dimensao; i+=gap) {
-			for(j = 0; j < dimensao; j++) {
+		for(i = index; i < dimension; i+=gap) {
+			for(j = 0; j < dimension; j++) {
 				soma = 0;
-				for(k = 0; k < dimensao; k++) {
+				for(k = 0; k < dimension; k++) {
 					soma = soma +
-						   MatrizA.get(k+i*dimensao) * 
-						   MatrizB.get(j+k*dimensao);
+						   MatrizA.get(k+i*dimension) * 
+						   MatrizB.get(j+k*dimension);
 				}
-				MatrizC[i][j] = soma;
+				MatrixC[i][j] = soma;
 			}
 		}
 	}

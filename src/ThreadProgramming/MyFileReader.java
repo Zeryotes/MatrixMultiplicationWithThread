@@ -11,14 +11,14 @@ import java.util.Scanner;
 // https://stackoverflow.com/questions/3806062/how-to-open-a-txt-file-and-read-numbers-in-java
 
 public class MyFileReader {
-	public static List<Integer> read(String path, int dimensao) throws IOException {
+	public static List<Integer> read(String path, int dimension) throws IOException {
 		Path filePath = Paths.get(path);
 		Scanner scanner = new Scanner(filePath);
-		List<Integer> integers = new ArrayList<>();
+		List<Integer> integersList = new ArrayList<>();
 		scanner.nextLine();
 		while (scanner.hasNext()) {
 		    if (scanner.hasNextInt()) {
-		        integers.add(scanner.nextInt());
+		        integersList.add(scanner.nextInt());
 		    } else {
 		        scanner.next();
 		    }
@@ -26,6 +26,6 @@ public class MyFileReader {
 		
 		scanner.close();
 		
-		return integers;
+		return integersList;
 	}
 }
