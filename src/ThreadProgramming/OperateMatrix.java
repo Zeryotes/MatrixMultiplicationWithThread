@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OperateMatrix {
-	public static List<Integer> multiply(List<Integer> MatrizA, List<Integer> MatrizB, int dimensao){
-		List<Integer> MatrizResultado = new ArrayList<Integer>();
+	public static List<Integer> multiply(List<Integer> MatrixA, List<Integer> MatrixB, int dimension){
+		List<Integer> MatrixResultado = new ArrayList<Integer>();
 		
-		int i, j, k, soma;
+		int i, j, k, sum;
 		
-		for(i = 0; i < dimensao; i++) {
-			for(j = 0; j < dimensao; j++) {
-				soma = 0;
-				for(k = 0; k < dimensao; k++) {
-					soma = soma +
-						   MatrizA.get(k+i*dimensao) * 
-						   MatrizB.get(j+k*dimensao);
+		for(i = 0; i < dimension; i++) {
+			for(j = 0; j < dimension; j++) {
+				sum = 0;
+				for(k = 0; k < dimension; k++) {
+					sum = sum +
+						   MatrixA.get(k+i*dimension) * 
+						   MatrixB.get(j+k*dimension);
 				}
-				MatrizResultado.add(soma);
+				MatrixResultado.add(sum);
 			}
 		}
-		return MatrizResultado;
+		return MatrixResultado;
 	}
 	
-	public static void print(List<Integer> Matriz, int dimensao) {
+	public static void print(List<Integer> Matrix, int dimension) {
 		System.out.println("");
-		System.out.println(dimensao + " " + dimensao);
-		for(int i = 0; i < dimensao; i++) {
-			for(int j = 0; j < dimensao; j++) {
-				System.out.print(Matriz.get(j+(i*dimensao)) + " ");
+		System.out.println(dimension + " " + dimension);
+		for(int i = 0; i < dimension; i++) {
+			for(int j = 0; j < dimension; j++) {
+				System.out.print(Matrix.get(j+(i*dimension)) + " ");
 			}
 			System.out.println("");			
 		}
